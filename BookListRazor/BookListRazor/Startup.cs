@@ -1,10 +1,12 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BookListRazor.Model;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,6 +25,9 @@ namespace BookListRazor
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //dependency injection = dodajemy kontekst obsługi bazy danych. Opcja (DbContextOptionBuilder) umożliwia ustawienie połączenia do SQLServera dla connection string zadanego w konfiguracji appsettings.json
+            services.AddDbContext<ApplicationDbContext>(option=>option.UseSqlServer (Configuration.GetConnectionString("DefaultConnection")));
+            //to pozwala na modyfikacje strony w runtime (konieczny pakiet *.runtime)
             services.AddRazorPages().AddRazorRuntimeCompilation();
         }
 
